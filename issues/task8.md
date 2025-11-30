@@ -1,64 +1,61 @@
-# Task 8: Git操作とCI/CD - コード品質を自動保証しよう
+# Task 8: Vitestでテストを書く - ヘルスチェックAPIをテストしよう
 
 ## 目的
-Claude Codeを使ってGit操作を効率化し、GitHub Actionsでコード品質を自動チェックするCI/CDパイプラインを構築する
+Vitestをセットアップし、Next.jsのAPIエンドポイントに対する単体テストを作成する
 
 ## 所要時間
-約40-50分
+約30-40分
 
 ## 前提条件
 - Task 1-7が完了していること
-- GitHubアカウントを持っていること
 - example1プロジェクトが存在すること
-- Gitの基本操作を理解していること
+- APIエンドポイントが作成済みであること（`/api/health`）
 
 ## このタスクで学ぶこと
-- Claude Codeを使った効率的なGit操作
-- Biomeによる高速なコードフォーマット・リント
-- GitHub Actionsを使ったCI/CD構築
-- PRベースの開発フロー
-- CI失敗時の対処方法
+- Vitestのセットアップ方法
+- Next.js API Routesのテスト手法
+- テスト駆動開発（TDD）の基礎
+- Claude Codeを使ったテスト作成の効率化
+- テストカバレッジの確認
 
 ## 🎯 ミッション
 
-**example1プロジェクトにBiomeを導入し、GitHub Actionsでコードフォーマットとリントを自動チェックするCIを構築してください！**
+**example1プロジェクトにVitestを導入し、ヘルスチェックAPIのテストを作成してください！**
 
-## 📚 Biomeとは？
+## 📚 Vitestとは？
 
-[Biome](https://biomejs.dev/)は、Rustで書かれた超高速なWeb開発ツールチェーンです。
+[Vitest](https://vitest.dev/)は、Viteベースの超高速なテストフレームワークです。
 
 ### 特徴
-- ⚡ **高速**: Prettierの約35倍の速度
-- 🔧 **オールインワン**: フォーマッター + リンター
-- 🎯 **ゼロ設定**: すぐに使い始められる
-- 🌍 **多言語対応**: JavaScript, TypeScript, JSX, JSON, CSS, HTML
-- 🔒 **型安全**: 390以上のルールでコード品質を保証
+- ⚡ **高速**: Viteのパワーで爆速テスト実行
+- 🔧 **設定不要**: Vite設定を自動で読み込み
+- 🎯 **Jest互換**: JestのようなシンプルなAPI
+- 📊 **カバレッジ**: ビルトインのカバレッジサポート
+- 🔥 **HMR**: テストもホットリロード
 
-### なぜBiomeを使うのか？
+### なぜVitestを使うのか？
 
-| ツール | 役割 | 特徴 |
+| ツール | 特徴 | 速度 |
 |-------|------|------|
-| **Biome** | フォーマット + リント | 高速、オールインワン、設定不要 |
-| ESLint | リント | 多機能だが遅い |
-| Prettier | フォーマット | 広く使われているが遅い |
-
-**Biome = ESLint + Prettier を高速に置き換え**
+| **Vitest** | Viteベース、最新、Next.js 15と相性良い | ⚡⚡⚡ |
+| Jest | 最も広く使われている | 🐢 |
+| Mocha | 柔軟だが設定が複雑 | 🐢 |
 
 ## 🚀 実装の進め方
 
-### ステップ1: Biomeをインストールする（5分）
+### ステップ1: Vitestをインストールする（5分）
 
 #### 1-1. Claude Codeに依頼する
 
 ```
-example1プロジェクトにBiomeをインストールしたいです。
+example1プロジェクトにVitestをインストールしたいです。
 
 以下を実行してください：
-1. @biomejs/biome を devDependencies にインストール
-2. package.json にBiome用のスクリプトを追加
-   - format: コードフォーマット
-   - lint: リント
-   - check: フォーマット + リント
+1. vitest、@vitejs/plugin-react、happy-dom をdevDependenciesにインストール
+2. package.jsonにテスト用のスクリプトを追加
+   - test: テストを実行
+   - test:watch: ウォッチモードでテストを実行
+   - test:coverage: カバレッジレポートを生成
 ```
 
 #### 1-2. 期待される結果
@@ -67,7 +64,7 @@ Claude Codeが以下を実行します：
 
 ```bash
 cd example1
-npm install --save-dev --save-exact @biomejs/biome
+npm install --save-dev vitest @vitest/ui happy-dom @types/node
 ```
 
 `package.json`に以下のスクリプトが追加されます：
@@ -75,435 +72,207 @@ npm install --save-dev --save-exact @biomejs/biome
 ```json
 {
   "scripts": {
-    "format": "biome format --write ./src",
-    "lint": "biome lint --write ./src",
-    "check": "biome check --write ./src"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
   }
 }
 ```
 
-#### 1-3. 動作確認
-
-```
-npm run check
-```
-
-を実行して、Biomeが動作することを確認してください。
-
-### ステップ2: Biome設定ファイルを作成する（5分）
+### ステップ2: Vitest設定ファイルを作成する（5分）
 
 #### 2-1. Claude Codeに依頼する
 
 ```
-example1プロジェクトのBiome設定ファイル（biome.json）を作成してください。
+Vitestの設定ファイル（vitest.config.ts）を作成してください。
 
 以下の設定を含めてください：
-- フォーマッター: インデント幅2、セミコロン有効
-- リンター: 推奨ルールを有効化
-- Next.js 15に適した設定
-- TypeScriptとJSX対応
+- Next.jsのパスエイリアス（@/*）を解決
+- happy-domをテスト環境として使用
+- テストファイルのパターン設定（**/*.test.ts, **/*.test.tsx）
+- グローバル設定（describe, it, expect等をインポート不要にする）
 ```
 
-#### 2-2. 期待される設定例
+#### 2-2. 期待される設定ファイル
 
-`example1/biome.json`:
+`example1/vitest.config.ts`:
 
-```json
-{
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "organizeImports": {
-    "enabled": true
+```typescript
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    environment: 'happy-dom',
+    globals: true,
+    setupFiles: ['./vitest.setup.ts'],
   },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true
-    }
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
   },
-  "formatter": {
-    "enabled": true,
-    "formatWithErrors": false,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "lineWidth": 100
-  },
-  "javascript": {
-    "formatter": {
-      "quoteStyle": "double",
-      "semicolons": "always"
-    }
-  },
-  "files": {
-    "ignore": [
-      "node_modules",
-      ".next",
-      "out",
-      "dist",
-      "build"
-    ]
-  }
-}
+});
 ```
 
-#### 2-3. 設定の意味を理解する
-
-Claude Codeに質問してみましょう：
+### ステップ3: ヘルスチェックAPIのテストを作成する（10分）
 
 ```
-作成したbiome.jsonの各設定項目について説明してください：
-1. organizeImports とは？
-2. linter.rules.recommended には何が含まれる？
-3. formatter の各オプションの意味は？
-4. files.ignore の設定理由は？
+example1/src/app/api/health/route.tsのテストを作成してください。
+
+ファイル: example1/src/app/api/health/route.test.ts
+
+テストケース：
+1. GET リクエストが200ステータスを返すこと
+2. レスポンスボディに "status": "ok" が含まれること
+3. レスポンスボディに "timestamp" が含まれること
+4. timestampがISO 8601形式であること
+
+Next.jsのRoute Handlerをテストする方法を使ってください。
 ```
 
-### ステップ3: ローカルでフォーマットを実行する（5分）
+### ステップ4: テストを実行する（5分）
 
-#### 3-1. 既存コードをフォーマット
-
-```
-npm run check
-```
-
-を実行して、Biomeが検出した問題を確認してください。
-
-#### 3-2. 問題があった場合
-
-Claude Codeに相談：
-
-```
-Biomeで以下のエラーが出ました：
-
-[エラーメッセージをコピー]
-
-これらのエラーを修正してください。
-```
-
-#### 3-3. コミット前のチェック習慣
-
-今後、コードを変更したら必ず実行：
-
-```bash
-npm run check
-```
-
-これで：
-- ✅ フォーマットが統一される
-- ✅ 潜在的なバグが検出される
-- ✅ コード品質が保たれる
-
-### ステップ4: GitHub Actionsを設定する（10分）
-
-#### 4-1. ワークフローファイルを作成
-
-Claude Codeに依頼：
-
-```
-example1プロジェクトにGitHub Actionsのワークフローを作成してください。
-
-ファイル: .github/workflows/ci.yml
-
-以下の内容を含めてください：
-1. PRが作成されたときに自動実行
-2. Node.js 20を使用
-3. 依存関係をインストール
-4. Biomeでコードフォーマットとリントをチェック
-5. チェックが失敗したらPRをマージできないようにする
-```
-
-#### 4-2. 期待されるワークフロー
-
-`example1/.github/workflows/ci.yml`:
-
-```yaml
-name: CI
-
-on:
-  pull_request:
-    branches: [main]
-  push:
-    branches: [main]
-
-jobs:
-  code-quality:
-    name: Code Quality Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: example1/package-lock.json
-
-      - name: Install dependencies
-        working-directory: example1
-        run: npm ci
-
-      - name: Run Biome format check
-        working-directory: example1
-        run: npx @biomejs/biome format ./src
-
-      - name: Run Biome lint
-        working-directory: example1
-        run: npx @biomejs/biome lint ./src
-
-      - name: Run Biome check
-        working-directory: example1
-        run: npx @biomejs/biome check ./src
-```
-
-#### 4-3. ワークフローの理解
-
-Claude Codeに質問：
-
-```
-作成したGitHub Actionsワークフローについて説明してください：
-1. on.pull_request の意味は？
-2. ubuntu-latest とは？
-3. actions/checkout@v4 は何をする？
-4. npm ci と npm install の違いは？
-5. working-directory はなぜ必要？
-```
-
-### ステップ5: 新しいブランチでPRを作成する（10分）
-
-#### 5-1. 新しい機能ブランチを作成
-
-Claude Codeに依頼：
-
-```
-新しい機能を追加するブランチを作成してください。
-
-1. ブランチ名: feature/add-biome-ci
-2. example1/src/app/page.tsx に簡単な変更を加える
-   （例: ページタイトルを変更）
-3. Biomeでフォーマットをチェック
-4. 変更をコミット
-5. リモートブランチにプッシュ
-```
-
-#### 5-2. Claude Codeが実行すること
-
-```bash
-# ブランチ作成
-git checkout -b feature/add-biome-ci
-
-# ファイル編集（Claude Codeが実行）
-# ...
-
-# フォーマットチェック
-cd example1
-npm run check
-
-# コミット
-git add .
-git commit -m "feat: BiomeとGitHub Actions CIを追加
-
-- BiomeをdevDependenciesに追加
-- biome.json設定ファイルを作成
-- GitHub Actions CIワークフローを追加
-- コードフォーマットを統一
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
-
-# プッシュ
-git push -u origin feature/add-biome-ci
-```
-
-#### 5-3. PRを作成
-
-Claude Codeに依頼：
-
-```
-feature/add-biome-ci ブランチからmainブランチへのPRを作成してください。
-
-タイトル: BiomeとGitHub Actions CIの導入
-本文: 以下を含めてください
-- 変更内容の概要
-- Biomeの導入理由
-- CIで何をチェックするか
-- テスト手順
-```
-
-または、カスタムコマンドを使用：
-
-```
-/create-pr
-```
-
-### ステップ6: CIの動作を確認する（5分）
-
-#### 6-1. GitHub上でCIの実行状況を確認
-
-PRを作成すると、GitHub Actionsが自動的に実行されます。
-
-Claude Codeに確認を依頼：
-
-```
-作成したPRのCI実行状況を確認したいです。
-GitHub CLIを使って、PRの状態とCIのチェック結果を表示してください。
-```
-
-#### 6-2. 期待されるコマンド
-
-```bash
-# PR一覧を表示
-gh pr list
-
-# 特定のPRの詳細を表示
-gh pr view [PR番号]
-
-# CIのチェック状態を確認
-gh pr checks [PR番号]
-```
-
-#### 6-3. CIが成功した場合
-
-✅ すべてのチェックが緑色になります：
-- ✅ Code Quality Check
-  - ✅ Biome format check
-  - ✅ Biome lint
-  - ✅ Biome check
-
-### ステップ7: CI失敗のシミュレーションと修正（10分）
-
-#### 7-1. わざとフォーマットエラーを作る
-
-Claude Codeに依頼：
-
-```
-CIが失敗するケースを試したいです。
-
-1. 新しいブランチ feature/test-ci-failure を作成
-2. example1/src/app/page.tsx にフォーマットエラーを含むコードを追加
-   （例: インデントがおかしい、セミコロンがない等）
-3. Biomeチェックをスキップしてコミット
-4. PRを作成
-```
-
-#### 7-2. 期待される動作
-
-GitHub Actions CIが失敗します：
-- ❌ Code Quality Check
-  - ❌ Biome format check
-
-#### 7-3. Claude Codeで修正
-
-```
-CIが失敗しました。以下を実行してください：
-
-1. ローカルで npm run check を実行
-2. 検出された問題をすべて修正
-3. 修正をコミット
-4. プッシュして再度CIを実行
-```
-
-Claude Codeが実行：
+#### 4-1. テストを実行
 
 ```bash
 cd example1
-npm run check  # エラーを確認
-
-# Claude Codeが自動的にコードを修正
-
-git add .
-git commit -m "fix: Biomeフォーマットエラーを修正
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
-
-git push
+npm run test
 ```
 
-#### 7-4. CIの再実行を確認
+#### 4-2. 期待される出力
 
-修正後、GitHub Actionsが自動的に再実行され、今度は成功します：
-- ✅ Code Quality Check
+```
+✓ src/app/api/health/route.test.ts (5)
+  ✓ GET /api/health (5)
+    ✓ 200ステータスコードを返すこと
+    ✓ レスポンスボディにstatusフィールドが含まれること
+    ✓ レスポンスボディにtimestampフィールドが含まれること
+    ✓ timestampがISO 8601形式であること
+    ✓ レスポンスのContent-TypeがJSONであること
 
-## 💡 Claude Codeの活用ポイント
+Test Files  1 passed (1)
+     Tests  5 passed (5)
+  Start at  XX:XX:XX
+  Duration  XXXms
+```
 
-### 1. Git操作の自動化
+#### 4-3. ウォッチモードで実行
 
-❌ 手動でやると：
+ファイル変更を監視して自動的に再実行：
+
 ```bash
-git checkout -b feature/new-feature
-# ファイル編集...
-git add .
-git commit -m "message"
-git push -u origin feature/new-feature
-gh pr create --title "..." --body "..."
+npm run test:watch
 ```
 
-✅ Claude Codeに依頼：
-```
-新機能を追加するブランチを作成して、PRまで作成してください
-```
+### ステップ5: テストカバレッジを確認する（5分）
 
-### 2. コミットメッセージの自動生成
-
-Claude Codeは変更内容を分析して、適切なコミットメッセージを生成します：
+#### 5-1. カバレッジツールをインストール
 
 ```
-以下の変更をコミットしてください：
-- Biomeの設定を追加
-- GitHub Actions CIを構築
+@vitest/coverage-v8をインストールしてください
 ```
 
-Claude Codeが生成：
-```
-feat: BiomeとGitHub Actions CIを追加
-
-- Biomeをフォーマッター/リンターとして導入
-- biome.json設定ファイルを作成
-- GitHub Actions CIワークフローを追加
-- PRでコード品質を自動チェック
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
+```bash
+npm install --save-dev @vitest/coverage-v8
 ```
 
-### 3. CI設定のトラブルシューティング
+#### 5-2. vitest.config.tsにカバレッジ設定を追加
+
+```typescript
+export default defineConfig({
+  // ... 既存の設定
+  test: {
+    // ... 既存の設定
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'json'],
+      include: ['src/app/api/**/*.ts'],
+      exclude: ['**/*.test.ts', '**/*.test.tsx'],
+    },
+  },
+});
+```
+
+#### 5-3. カバレッジレポートを生成
+
+```bash
+npm run test:coverage
+```
+
+期待される出力：
 
 ```
-GitHub ActionsのCIが失敗しました。
-以下のエラーログから原因を特定して修正してください：
-
-[エラーログをコピー]
+Coverage report from v8
+-----------------------|---------|----------|---------|---------|
+File                   | % Stmts | % Branch | % Funcs | % Lines |
+-----------------------|---------|----------|---------|---------|
+All files              |     100 |      100 |     100 |     100 |
+ api/health/route.ts   |     100 |      100 |     100 |     100 |
+-----------------------|---------|----------|---------|---------|
 ```
 
-Claude Codeが：
-1. エラーの原因を特定
-2. 修正方法を提案
-3. 必要なら設定ファイルを修正
+カバレッジHTMLレポートは `example1/coverage/index.html` に生成されます。
 
-## 🎓 重要な概念の理解
+### ステップ6: テストの理解を深める（5-10分）
 
-### CI/CDとは？
+#### 6-1. Claude Codeに質問する
 
-- **CI (Continuous Integration)**: コードを頻繁に統合し、自動テスト
-- **CD (Continuous Deployment)**: テスト通過後、自動デプロイ
+```
+作成したテストについて、以下を説明してください：
 
-このタスクではCIを構築しました。
+1. describe と it の役割の違いは？
+2. expect().toBe() と expect().toEqual() の違いは？
+3. なぜ async/await を使っているのか？
+4. response.json() は何をしているのか？
+5. toMatch() でRegexを使う理由は？
+```
 
-### なぜCIが重要？
+#### 6-2. テストを追加してみる
 
-| 従来の開発 | CI導入後 |
-|----------|---------|
-| 手動でフォーマット確認 | 自動チェック |
-| レビュアーが品質チェック | 機械が事前チェック |
-| マージ後に問題発覚 | マージ前に問題検出 |
-| チームの規約がバラバラ | 統一されたコード品質 |
+自分でテストケースを追加してみましょう：
 
-### PRベース開発のベストプラクティス
+```
+以下のテストケースを追加してください：
 
-1. **小さなPR**: 1つの機能・修正に集中
-2. **説明的なタイトル**: 何を変更したか一目で分かる
-3. **CI必須**: すべてのチェックが通るまでマージしない
-4. **レビュー**: 最低1人のレビューを受ける
+1. timestampが現在時刻に近いこと（1秒以内）
+2. レスポンスボディに余計なフィールドがないこと
+```
+
+期待される追加テスト：
+
+```typescript
+it('timestampが現在時刻に近いこと（1秒以内）', async () => {
+  const before = new Date();
+  const response = await GET();
+  const after = new Date();
+  const body = await response.json();
+
+  const timestamp = new Date(body.timestamp);
+  expect(timestamp.getTime()).toBeGreaterThanOrEqual(before.getTime());
+  expect(timestamp.getTime()).toBeLessThanOrEqual(after.getTime());
+});
+
+it('レスポンスボディに必要なフィールドのみ含まれること', async () => {
+  const response = await GET();
+  const body = await response.json();
+
+  const expectedKeys = ['status', 'timestamp'];
+  const actualKeys = Object.keys(body);
+
+  expect(actualKeys.sort()).toEqual(expectedKeys.sort());
+});
+```
+
+## ✅ 確認事項
+
+- [ ] Vitestをインストールした
+- [ ] vitest.config.tsを作成した
+- [ ] ヘルスチェックAPIのテストを作成した
+- [ ] すべてのテストがパスした
+- [ ] テストカバレッジを確認した（100%）
+- [ ] ウォッチモードの使い方を理解した
+- [ ] Claude Codeでテスト作成を効率化できた
