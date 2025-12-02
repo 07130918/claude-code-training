@@ -17,7 +17,9 @@ claude-code-training/
 ├── example1/                # Next.js 15 サンプルプロジェクト
 │   ├── src/app/            # App Router
 │   └── package.json        # Next.js依存関係
-└── issues/                 # 学習タスク(task1.md～task7.md)
+├── homework/                # 宿題・課題ファイル
+│   └── note.txt            # 宿題メモ
+└── issues/                 # 学習タスク(task1.md～task11.md)
 ```
 
 ## 開発コマンド
@@ -50,6 +52,10 @@ issuesディレクトリのタスクを順番に実行:
 5. **task5.md** - カスタムコマンド作成
 6. **task6.md** - サブエージェント作成
 7. **task7.md** - 新機能実装(総合演習)
+8. **task8.md** - 高度なカスタマイズ
+9. **task9.md** - 実践的なワークフロー
+10. **task10.md** - チーム開発での活用
+11. **task11.md** - まとめと次のステップ
 
 ## アーキテクチャ
 
