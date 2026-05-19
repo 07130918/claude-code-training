@@ -43,7 +43,7 @@ WebSearch機能を有効にすると、Claude Codeが：
 WebSearchが有効になったか確認するため、Claude Codeに質問してみましょう：
 
 ```
-Next.js 15の最新機能について教えてください
+Next.js 16の最新機能について教えてください
 ```
 
 Claude Codeが実際にWeb検索を行い、最新情報を取得している様子が見られるはずです。

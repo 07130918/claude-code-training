@@ -6,8 +6,6 @@ Claude Codeをあなたのマシンにインストールし、使用できる状
 ## 所要時間
 約5分
 
-## 前提条件
-特になし（ただし、NPMでインストールする場合はNode.js 18以上が必要）
 
 ## 手順
 
@@ -17,14 +15,14 @@ Claude Codeをあなたのマシンにインストールし、使用できる状
 
 #### macOS/Linux（推奨）
 
+**ネイティブインストーラ：**
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
 **Homebrewを使用：**
 ```bash
 brew install --cask claude-code
-```
-
-**curlを使用：**
-```bash
-curl -fsSL https://claude.ai/install.sh | bash
 ```
 
 #### Windows

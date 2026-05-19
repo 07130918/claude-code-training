@@ -18,8 +18,8 @@ Google Drive: https://drive.google.com/drive/u/0/folders/1TTjjPxaxpWVQcHk8Qdmn3d
 
 **AnthropicによるAIペアプログラミングツール**
 
-- ターミナルで動作するCLIツール
-- Claude 3.5 Sonnetの強力なAI能力を活用
+- ターミナルで動作するCLIツール（VS Code/JetBrains拡張、デスクトップアプリ、`claude.ai/code` のWeb版もある）
+- Claude 4世代のモデルを利用（Claude Code のデフォルトは Sonnet 4.6、最も高度なタスクには Opus 4.7 を選択可能）
 - プロジェクト全体のコンテキストを理解
 - 自律的なタスク実行が可能
 
@@ -49,22 +49,30 @@ Google Drive: https://drive.google.com/drive/u/0/folders/1TTjjPxaxpWVQcHk8Qdmn3d
 
 ```
 claude-code-training/
-├── example1/          # Next.jsプロジェクト（ハンズオン用）
-├── homework/          # 宿題・課題ファイル
-│   └── note.txt      # 宿題メモ
-├── issues/            # タスクファイル（順番に実行）
-│   ├── task1.md      # インストール
-│   ├── task2.md      # プロジェクト初期化
-│   ├── task3.md      # WebSearch設定
-│   ├── task4.md      # WebSearchでNext.js理解
-│   ├── task5.md      # カスタムコマンド作成
-│   ├── task6.md      # サブエージェント作成
-│   ├── task7.md      # 新機能実装（総合演習）
-│   ├── task8.md      # 高度なカスタマイズ
-│   ├── task9.md      # 実践的なワークフロー
-│   ├── task10.md     # チーム開発での活用
-│   └── task11.md     # まとめと次のステップ
-└── README.md         # このファイル
+├── .claude/                       # Claude Code設定
+│   ├── agents/                    # サブエージェント定義
+│   │   ├── nextjs-reviewer.md
+│   │   └── performance-optimizer.md
+│   ├── commands/                  # カスタムスラッシュコマンド
+│   │   └── review-custom.md
+│   └── settings.local.json        # WebSearch等の権限設定
+├── CLAUDE.md                       # プロジェクトメモリ
+├── example1/                       # Next.js 16 サンプルプロジェクト
+├── homework/                       # 宿題・課題ファイル
+│   └── note.txt
+├── issues/                         # タスクファイル（順番に実行）
+│   ├── task1.md   # Claude Codeのインストール
+│   ├── task2.md   # プロジェクト初期化（CLAUDE.md）
+│   ├── task3.md   # WebSearch設定
+│   ├── task4.md   # WebSearchでNext.jsを理解
+│   ├── task5.md   # カスタムコマンド作成
+│   ├── task6.md   # サブエージェント作成
+│   ├── task7.md   # ペアプログラミング（新機能実装）
+│   ├── task8.md   # BiomeとGitHub Actions CI
+│   ├── task9.md   # Vitestで単体テスト
+│   ├── task10.md  # CI/CD統合（テスト自動実行と手動トリガー）
+│   └── task11.md  # Skills（発展）
+└── README.md                       # このファイル
 ```
 
 ---

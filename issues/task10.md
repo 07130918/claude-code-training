@@ -426,9 +426,9 @@ jobs:
 testジョブをマトリックス戦略に変更してください。
 
 Node.jsバージョン：
-- 18
-- 20
-- 21
+- 20（LTS）
+- 22（LTS）
+- 24（最新）
 
 各バージョンで並列実行されるようにしてください。
 ```
@@ -442,7 +442,7 @@ Node.jsバージョン：
 
     strategy:
       matrix:
-        node-version: [18, 20, 21]
+        node-version: [20, 22, 24]
       fail-fast: false
 
     steps:

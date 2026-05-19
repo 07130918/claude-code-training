@@ -126,7 +126,7 @@ description: Reactコンポーネントを作成
 argument-hint: <component-name>
 ---
 
-Next.js 15のReactコンポーネント「$1」を作成してください。
+Next.js 16のReactコンポーネント「$1」を作成してください。
 
 以下を含むファイルを作成：
 - TypeScriptを使用

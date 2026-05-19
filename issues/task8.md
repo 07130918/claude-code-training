@@ -100,7 +100,7 @@ example1プロジェクトのBiome設定ファイル（biome.json）を作成し
 以下の設定を含めてください：
 - フォーマッター: インデント幅2、セミコロン有効
 - リンター: 推奨ルールを有効化
-- Next.js 15に適した設定
+- Next.js 16に適した設定
 - TypeScriptとJSX対応
 ```
 
@@ -110,10 +110,7 @@ example1プロジェクトのBiome設定ファイル（biome.json）を作成し
 
 ```json
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
+  "$schema": "https://biomejs.dev/schemas/2.4.0/schema.json",
   "linter": {
     "enabled": true,
     "rules": {
@@ -133,17 +130,27 @@ example1プロジェクトのBiome設定ファイル（biome.json）を作成し
       "semicolons": "always"
     }
   },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
   "files": {
-    "ignore": [
-      "node_modules",
-      ".next",
-      "out",
-      "dist",
-      "build"
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.next",
+      "!out",
+      "!dist",
+      "!build"
     ]
   }
 }
 ```
+
+> ℹ️ Biome v2 系から設定スキーマが変更されました（旧 `organizeImports` は `assist.actions.source.organizeImports` に、`files.ignore` は `files.includes` の否定パターンに移行）。常に最新スキーマに揃えるには `npx @biomejs/biome migrate --write` を実行できます。
 
 #### 2-3. 設定の意味を理解する
 
@@ -151,10 +158,10 @@ Claude Codeに質問してみましょう：
 
 ```
 作成したbiome.jsonの各設定項目について説明してください：
-1. organizeImports とは？
+1. assist.actions.source.organizeImports とは？（旧 organizeImports）
 2. linter.rules.recommended には何が含まれる？
 3. formatter の各オプションの意味は？
-4. files.ignore の設定理由は？
+4. files.includes の `!` 否定パターンの意味は？（旧 files.ignore）
 ```
 
 ### ステップ3: ローカルでフォーマットを実行する（5分）
