@@ -53,8 +53,8 @@ claude-code-training/
 │   ├── agents/                    # サブエージェント定義
 │   │   ├── nextjs-reviewer.md
 │   │   └── performance-optimizer.md
-│   ├── commands/                  # カスタムスラッシュコマンド
-│   │   └── review-custom.md
+│   ├── skills/                    # Skills（frontmatter付きカスタム拡張）
+│   │   └── review-custom/SKILL.md # コードレビュー skill
 │   └── settings.local.json        # WebSearch等の権限設定
 ├── CLAUDE.md                       # プロジェクトメモリ
 ├── example1/                       # Next.js 16 サンプルプロジェクト
@@ -65,7 +65,7 @@ claude-code-training/
 │   ├── task2.md   # プロジェクト初期化（CLAUDE.md）
 │   ├── task3.md   # WebSearch設定
 │   ├── task4.md   # WebSearchでNext.jsを理解
-│   ├── task5.md   # カスタムコマンド作成
+│   ├── task5.md   # Skill 作成
 │   ├── task6.md   # サブエージェント作成
 │   ├── task7.md   # ペアプログラミング（新機能実装）
 │   ├── task8.md   # BiomeとGitHub Actions CI
