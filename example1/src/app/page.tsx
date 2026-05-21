@@ -1,65 +1,86 @@
-import Image from "next/image";
 import styles from "./page.module.css";
+import { fetchCurrentWeather, getWeatherDescription, getWeatherCategory } from "@/lib/weather";
+import { CITIES, findCity } from "@/lib/cities";
+import { CitySelector } from "./components/CitySelector";
 
-export default function Home() {
+type Props = {
+  searchParams: Promise<{ city?: string }>;
+};
+
+export default async function Home({ searchParams }: Props) {
+  const { city: cityName } = await searchParams;
+  const city = findCity(cityName ?? "東京");
+
+  let weather = null;
+  let errorMessage = null;
+
+  try {
+    weather = await fetchCurrentWeather(city.lat, city.lon, city.name);
+  } catch {
+    errorMessage = "天気データの取得に失敗しました。";
+  }
+
+  const { label, emoji } = weather
+    ? getWeatherDescription(weather.current.weatherCode)
+    : { label: "", emoji: "" };
+
+  const category = weather ? getWeatherCategory(weather.current.weatherCode) : "rainy";
+
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${styles[category]}`}>
       <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+        <h1 className={styles.appTitle}>天気予報</h1>
+
+        <CitySelector cities={CITIES} currentCity={city.name} />
+
+        {errorMessage && <div className={styles.error}>{errorMessage}</div>}
+
+        {weather && (
+          <div className={styles.card}>
+            <div className={styles.cardHeader}>
+              <span className={styles.city}>{weather.city}</span>
+              <span className={styles.time}>
+                {new Date(weather.current.time).toLocaleString("ja-JP", {
+                  month: "numeric",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+            </div>
+
+            <div className={styles.weatherMain}>
+              <span className={styles.emoji}>{emoji}</span>
+              <div className={styles.tempBlock}>
+                <span className={styles.temperature}>
+                  {weather.current.temperature}°
+                </span>
+                <span className={styles.description}>{label}</span>
+              </div>
+            </div>
+
+            <div className={styles.details}>
+              <div className={styles.detailItem}>
+                <span className={styles.detailLabel}>体感気温</span>
+                <span className={styles.detailValue}>
+                  {weather.current.apparentTemperature}°C
+                </span>
+              </div>
+              <div className={styles.detailItem}>
+                <span className={styles.detailLabel}>湿度</span>
+                <span className={styles.detailValue}>
+                  {weather.current.humidity}%
+                </span>
+              </div>
+              <div className={styles.detailItem}>
+                <span className={styles.detailLabel}>風速</span>
+                <span className={styles.detailValue}>
+                  {weather.current.windspeed} km/h
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

@@ -29,3 +29,17 @@ export interface HealthCheckResponse {
   status: "ok";
   timestamp: string;
 }
+
+export interface WeatherCurrent {
+  temperature: number;
+  apparentTemperature: number;
+  humidity: number;
+  windspeed: number;
+  weatherCode: number;
+  time: string;
+}
+
+export interface WeatherData {
+  city: string;
+  current: WeatherCurrent;
+}
