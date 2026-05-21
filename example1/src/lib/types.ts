@@ -29,3 +29,19 @@ export interface HealthCheckResponse {
   status: "ok";
   timestamp: string;
 }
+
+/**
+ * 天気データ
+ */
+export interface WeatherData {
+  city: string;
+  temperature: number;
+  humidity: number;
+  windSpeed: number;
+  weatherCode: number;
+  weatherDescription: string;
+  unit: {
+    temperature: string;
+    windSpeed: string;
+  };
+}
