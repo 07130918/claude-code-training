@@ -1,141 +1,287 @@
-.page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
-}
-
 .main {
-  display: flex;
   min-height: 100vh;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+  background: #0a0e1a;
+  color: #e8eaf0;
+  font-family: var(--font-geist-sans, sans-serif);
 }
 
-.intro {
+/* ── Header ── */
+.header {
+  background: linear-gradient(135deg, #141827 0%, #0d1020 100%);
+  border-bottom: 1px solid #1e2540;
+  padding: 20px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
-}
-
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
-}
-
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
-}
-
-.ctas a {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+.dateControl {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.displayDate {
+  font-size: 0.95rem;
+  color: #8892b0;
+}
+
+.datePicker {
+  background: #1e2540;
+  color: #e8eaf0;
+  border: 1px solid #2a3050;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
   cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
+  transition: border-color 0.15s;
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
+.datePicker:focus {
+  outline: none;
+  border-color: #4a6cf7;
+}
+
+/* ── Body ── */
+.body {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── State messages ── */
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  gap: 16px;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #1e2540;
+  border-top-color: #4a6cf7;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loadingText {
+  color: #8892b0;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.errorText {
+  color: #ff6b6b;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.emptyText {
+  color: #8892b0;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ── Game list ── */
+.gameList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+/* ── Game card ── */
+.card {
+  background: #141827;
+  border: 1px solid #1e2540;
+  border-radius: 12px;
+  padding: 18px 20px;
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: #2a3a6a;
+}
+
+/* ── Card header ── */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+.badgeFinished {
+  background: #1a3028;
+  color: #4ade80;
+  border: 1px solid #254033;
+}
+
+.badgeScheduled {
+  background: #1a2040;
+  color: #60a5fa;
+  border: 1px solid #253060;
+}
+
+.place {
+  font-size: 0.82rem;
+  color: #6272a4;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.timeLabel {
+  font-size: 0.82rem;
+  color: #8892b0;
+  flex-shrink: 0;
+}
+
+/* ── Matchup ── */
+.matchup {
+  display: flex;
+  align-items: center;
   gap: 8px;
+  margin-bottom: 14px;
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.teamBlock {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
+.teamBlockRight {
+  flex-direction: row-reverse;
 }
 
+.winnerBlock .teamName {
+  color: #ffffff;
+}
+
+.teamName {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #a0aec0;
+  white-space: nowrap;
+}
+
+.score {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4a5568;
+  min-width: 2.2rem;
+  text-align: center;
+  line-height: 1;
+}
+
+.scoreWinner {
+  color: #f0f4ff;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+}
+
+.dash {
+  font-size: 1.4rem;
+  color: #2d3748;
+  font-weight: 300;
+}
+
+.vs {
+  font-size: 0.72rem;
+  color: #4a5568;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* ── Pitchers ── */
+.pitchers {
+  display: flex;
+  gap: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #1e2540;
+  flex-wrap: wrap;
+}
+
+.pitcherItem {
+  font-size: 0.8rem;
+  color: #8892b0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pitcherRole {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #4a6cf7;
+  background: #1a2050;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* ── Responsive ── */
 @media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
+  .header {
+    padding: 16px;
   }
 
-  .intro {
-    gap: 16px;
+  .title {
+    font-size: 1.2rem;
   }
 
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
+  .body {
+    padding: 16px;
   }
 
-  .page {
-    --background: #000;
-    --foreground: #000;
+  .gameList {
+    grid-template-columns: 1fr;
+  }
 
-    --text-primary: #ededed;
-    --text-secondary: #999;
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
+  .displayDate {
+    display: none;
   }
 }
