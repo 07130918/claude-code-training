@@ -29,3 +29,17 @@ export interface HealthCheckResponse {
   status: "ok";
   timestamp: string;
 }
+
+export const CURRENCIES = ["USD", "JPY", "EUR", "GBP", "CNY", "KRW", "AUD", "CAD"] as const;
+export type CurrencyCode = (typeof CURRENCIES)[number];
+
+export interface ExchangeRatesResponse {
+  base: string;
+  rates: Record<string, number>;
+  time_last_update_utc: string;
+}
+
+export interface ConversionResult {
+  currency: CurrencyCode;
+  amount: number;
+}

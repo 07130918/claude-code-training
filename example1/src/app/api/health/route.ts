@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import type { HealthCheckResponse } from "@/lib/types";
 
 /**
@@ -13,5 +12,5 @@ export async function GET() {
     timestamp: new Date().toISOString(),
   };
 
-  return NextResponse.json(response, { status: 200 });
+  return Response.json(response, { status: 200 });
 }

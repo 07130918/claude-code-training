@@ -1,0 +1,30 @@
+.tabBar {
+  display: flex;
+  gap: 4px;
+  max-width: 480px;
+  margin: 24px auto 0;
+  padding: 0 4px;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: #f3f4f6;
+  color: #6b7280;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.tab:hover:not(.active) {
+  background: #e5e7eb;
+}
+
+.active {
+  background: #fff;
+  color: #6366f1;
+  box-shadow: 0 -2px 0 #6366f1 inset;
+}
