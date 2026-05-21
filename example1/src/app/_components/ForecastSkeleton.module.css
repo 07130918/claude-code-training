@@ -1,0 +1,79 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.line,
+.lineLarge,
+.lineSmall,
+.meta,
+.sectionTitle,
+.chart,
+.card {
+  background: linear-gradient(
+    90deg,
+    rgba(127, 127, 127, 0.08) 0%,
+    rgba(127, 127, 127, 0.18) 50%,
+    rgba(127, 127, 127, 0.08) 100%
+  );
+  background-size: 400px 100%;
+  animation: shimmer 1.4s linear infinite;
+  border-radius: 6px;
+}
+
+.meta {
+  height: 16px;
+  width: 280px;
+}
+
+.sectionTitle {
+  height: 22px;
+  width: 160px;
+  margin-top: 8px;
+}
+
+.cardList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  height: 200px;
+  border-radius: 16px;
+  background: rgba(127, 127, 127, 0.06);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.line {
+  height: 12px;
+  width: 50%;
+}
+
+.lineLarge {
+  height: 24px;
+  width: 80%;
+}
+
+.lineSmall {
+  height: 12px;
+  width: 30%;
+}
+
+.chart {
+  height: 260px;
+  border-radius: 16px;
+}

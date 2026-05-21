@@ -1,66 +1,35 @@
-import Image from "next/image";
+import { Suspense } from "react";
+import { DEFAULT_CITY_CODE, findCity } from "@/lib/cities";
+import { CityTabs } from "./_components/CityTabs";
+import { ForecastSection } from "./_components/ForecastSection";
+import { ForecastSkeleton } from "./_components/ForecastSkeleton";
 import styles from "./page.module.css";
 
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+interface Props {
+	searchParams: Promise<{ city?: string; compare?: string }>;
+}
+
+export const revalidate = 1800;
+
+export default async function Home({ searchParams }: Props) {
+	const params = await searchParams;
+	// findCity がヒットしなければデフォルト都市にフォールバック
+	const city = findCity(params.city ?? "") ?? findCity(DEFAULT_CITY_CODE);
+	if (!city) {
+		throw new Error("default city is not registered");
+	}
+	const compareCity = findCity(params.compare ?? "");
+
+	return (
+		<main className={styles.main}>
+			<header className={styles.header}>
+				<h1 className={styles.title}>天気予報</h1>
+				<p className={styles.subtitle}>気象庁の予報データ (3日間 + 週間)</p>
+			</header>
+			<CityTabs selected={city.code} compareCode={compareCity?.code} />
+			<Suspense key={city.code} fallback={<ForecastSkeleton />}>
+				<ForecastSection city={city} />
+			</Suspense>
+		</main>
+	);
 }
