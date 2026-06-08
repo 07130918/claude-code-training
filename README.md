@@ -14,6 +14,28 @@ Google Drive: https://drive.google.com/drive/u/0/folders/1TTjjPxaxpWVQcHk8Qdmn3d
 
 ---
 
+## 研修でのClaude Code利用ルール
+
+このリポジトリは、Claude Codeに作業を丸投げするためではなく、受講者がClaude Codeを使った開発プロセスを理解するための研修用リポジトリです。
+
+Claude Codeにissueの内容を読ませる時は、すぐに実装へ進めず、次の順番で進めてください。
+
+1. issueの目的と完了条件を要約させる
+2. 受講者が内容を理解しているか確認する
+3. 変更対象ファイルと実装ステップだけを説明させる
+4. 講師または受講者が「実装してよい」と明示してから実装させる
+5. 実装後は変更内容、確認方法、次に学ぶべき点を説明させる
+
+Claude Codeへの依頼では、以下のように明示してください。
+
+```text
+まず実装しないでください。
+issueの内容を読み、目的、完了条件、変更対象、実装ステップを説明してください。
+私が理解して「進めてください」と言うまで、ファイル変更はしないでください。
+```
+
+---
+
 ## 🤖 Claude Codeとは？
 
 **AnthropicによるAIペアプログラミングツール**
@@ -72,7 +94,12 @@ claude-code-training/
 │   ├── task8.md   # BiomeとGitHub Actions CI
 │   ├── task9.md   # Vitestで単体テスト
 │   ├── task10.md  # CI/CD統合（テスト自動実行と手動トリガー）
-│   └── task11.md  # Skills（発展）
+│   ├── task11.md  # Skills（発展）
+│   ├── task12.md  # 本家リポジトリの最新タスクをForkへ反映
+│   ├── task13.md  # コーポレートサイト改善モック
+│   ├── task14.md  # アクセシビリティとUI品質改善
+│   ├── task15.md  # CLAUDE.mdとSkillへの知見反映
+│   └── task16.md  # PR化とセルフレビュー
 └── README.md                       # このファイル
 ```
 
