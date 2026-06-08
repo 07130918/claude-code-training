@@ -1,0 +1,464 @@
+/* ======= Layout ======= */
+/* html レベルでスクロール挙動を指定しないとページ内アンカーに効かない */
+:global(html) {
+  scroll-behavior: smooth;
+}
+
+.page {}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ======= Header ======= */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #1b2d6b;
+  color: #fff;
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.nav {
+  display: flex;
+  gap: 28px;
+}
+
+.navLink {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.2s;
+}
+
+.navLink:hover {
+  color: #fff;
+}
+
+@media (max-width: 640px) {
+  .headerInner {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 10px 0;
+    gap: 6px;
+  }
+
+  .nav {
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-bottom: 6px;
+  }
+
+  .navLink {
+    font-size: 0.82rem;
+  }
+}
+
+/* ======= Hero ======= */
+.hero {
+  background: linear-gradient(135deg, #1b2d6b 0%, #0056d2 100%);
+  color: #fff;
+  padding: 96px 0 80px;
+  text-align: center;
+}
+
+.heroTagline {
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 16px;
+}
+
+.heroTitle {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.45;
+  margin-bottom: 16px;
+}
+
+.heroSub {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 40px;
+  letter-spacing: 0.04em;
+}
+
+.heroCtas {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  display: inline-block;
+  padding: 13px 32px;
+  background: #fff;
+  color: #1b2d6b;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  transition: opacity 0.2s;
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+}
+
+.btnOutline {
+  display: inline-block;
+  padding: 13px 32px;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.btnOutline:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ======= Section Common ======= */
+.section {
+  padding: 80px 0;
+  background: #fff;
+}
+
+.sectionAlt {
+  padding: 80px 0;
+  background: #f7f7f8;
+}
+
+.sectionLabel {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0056d2;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.sectionLabelLight {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.sectionTitle {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 16px;
+}
+
+.sectionDesc {
+  font-size: 1rem;
+  color: #555;
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+}
+
+/* ======= Services ======= */
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.serviceCard {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 32px 28px;
+  transition: box-shadow 0.2s;
+}
+
+.serviceCard:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.serviceIcon {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.serviceTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1b2d6b;
+  margin-bottom: 12px;
+}
+
+.serviceDesc {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.75;
+}
+
+/* ======= Features ======= */
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+}
+
+.featureItem {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.featureIcon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.featureTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+}
+
+.featureDesc {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.75;
+}
+
+/* ======= Recruit ======= */
+.recruitBox {
+  background: linear-gradient(135deg, #1b2d6b 0%, #0056d2 100%);
+  border-radius: 12px;
+  padding: 56px 48px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .recruitBox {
+    padding: 40px 28px;
+  }
+}
+
+.recruitTitle {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.recruitDesc {
+  font-size: 0.93rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.8;
+  max-width: 500px;
+}
+
+.recruitStats {
+  display: flex;
+  gap: 36px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.stat {
+  text-align: center;
+}
+
+.statNum {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ======= News ======= */
+.newsList {
+  list-style: none;
+}
+
+.newsItem {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.newsItem:first-child {
+  border-top: 1px solid #e5e7eb;
+}
+
+.newsDate {
+  font-size: 0.85rem;
+  color: #888;
+  flex-shrink: 0;
+  min-width: 88px;
+  font-variant-numeric: tabular-nums;
+}
+
+.newsTitle {
+  font-size: 0.95rem;
+  color: #1a1a2e;
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  .newsItem {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+/* ======= Contact ======= */
+.contactBox {
+  background: #edf1fc;
+  border-radius: 10px;
+  padding: 56px 48px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .contactBox {
+    padding: 40px 24px;
+  }
+}
+
+.contactTitle {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 10px;
+}
+
+.contactDesc {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 36px;
+}
+
+.contactActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.telBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.telNum {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1b2d6b;
+  letter-spacing: 0.04em;
+}
+
+.telHours {
+  font-size: 0.78rem;
+  color: #888;
+}
+
+.btnNavy {
+  display: inline-block;
+  padding: 14px 36px;
+  background: #1b2d6b;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  transition: opacity 0.2s;
+}
+
+.btnNavy:hover {
+  opacity: 0.85;
+}
+
+/* ======= Footer ======= */
+.footer {
+  background: #111827;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 40px 0 0;
+}
+
+.footerInner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  flex-wrap: wrap;
+  padding-bottom: 32px;
+}
+
+.footerLogo {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.footerAddress {
+  font-size: 0.82rem;
+  line-height: 1.8;
+  font-style: normal;
+}
+
+.footerBadges {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  align-self: center;
+}
+
+.badge {
+  font-size: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.55);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.footerCopyright {
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.76rem;
+  text-align: center;
+}
