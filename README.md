@@ -96,10 +96,7 @@ claude-code-training/
 │   ├── task10.md  # CI/CD統合（テスト自動実行と手動トリガー）
 │   ├── task11.md  # Skills（発展）
 │   ├── task12.md  # 本家リポジトリの最新タスクをForkへ反映
-│   ├── task13.md  # コーポレートサイト改善モック
-│   ├── task14.md  # アクセシビリティとUI品質改善
-│   ├── task15.md  # CLAUDE.mdとSkillへの知見反映
-│   └── task16.md  # PR化とセルフレビュー
+│   └── task13.md  # コーポレートサイト改善モック
 └── README.md                       # このファイル
 ```
 
