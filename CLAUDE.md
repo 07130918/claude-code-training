@@ -39,7 +39,7 @@ claude-code-training/
 │   └── package.json
 ├── homework/                         # 宿題・課題ファイル
 │   └── note.txt
-└── issues/                          # 学習タスク（task1.md〜task13.md）
+└── issues/                          # 学習タスク（task1.md〜task16.md）
 ```
 
 ## 開発コマンド
@@ -79,6 +79,9 @@ issuesディレクトリのタスクを順番に実行する:
 12. **task11.md** - Skills（発展）
 13. **task12.md** - 本家リポジトリの最新タスクをForkへ反映する
 14. **task13.md** - コーポレートサイト改善モックを実装する
+15. **task14.md** - アクセシビリティとUI品質を改善する
+16. **task15.md** - CLAUDE.mdとSkillに知見を反映する
+17. **task16.md** - Pull Request化とセルフレビューを行う
 
 ## アーキテクチャ
 
